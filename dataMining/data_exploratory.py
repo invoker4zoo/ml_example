@@ -25,12 +25,16 @@ read_columns = ['timestamp', 'oil_urals', 'gdp_quart_growth', 'cpi', 'usdrub', \
                 'salary_growth', 'unemployment', 'average_provision_of_build_contract_moscow', 'mortgage_rate', \
                 'deposits_rate', 'deposits_growth', 'rent_price_3room_eco', \
                 'rent_price_3room_bus']
+# 统计信息
+print train_df.describe()
+
 
 # house price distribute
 plt.figure(figsize=(8,6))
 plt.scatter(range(train_df.shape[0]), np.sort(train_df.price_doc.values))
 plt.xlabel('index', fontsize=12)
 plt.ylabel('price', fontsize=12)
+plt.savefig("price_dis.png")
 plt.show()
 
 # missing value count
@@ -45,6 +49,7 @@ ax.set_yticks(ind)
 ax.set_yticklabels(missing_df.column_name.values, rotation='horizontal')
 ax.set_xlabel("Count of missing values")
 ax.set_title("Number of missing values in each column")
+plt.savefig("miss_value.png")
 plt.show()
 
 # importance feature calculate
@@ -72,34 +77,32 @@ model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
 # plot the important features #
 fig, ax = plt.subplots(figsize=(12,18))
 xgb.plot_importance(model, max_num_features=50, height=0.8, ax=ax)
+plt.savefig("feature_importance.png")
 plt.show()
 
 # correlation analysis
 ###### Service Read routines ###
 def condition_train(value, col):
     vals = (macro_df[macro_df['mo_ye'] == value])
-
     ret = vals[col].asobject
-
     ret = ret[0]
-
     return ret
+
 
 def condition_test(value, col):
     vals = (macro_df[macro_df['mo_ye'] == value])
-
     ret = vals[col].asobject
-
     ret = ret[0]
-
     return ret
+
 
 def condition(value,col):
     vals = (macro_df[macro_df['timestamp'] == value])
-    ret=vals[col].asobject
-    ret=ret[0]
-
+    ret = vals[col].asobject
+    # if ret.shape[0]>0:
+    ret = ret[0]
     return ret
+
 
 def init_anlz_file():
 
@@ -136,4 +139,5 @@ macro_df.drop(['index'],axis=1,inplace=True)
 corr = macro_df[:].corr(method='spearman')
 fig, ax = plt.subplots(figsize=(10,10))
 sns.heatmap(corr, annot=True, linewidths=.5, ax=ax)
+plt.savefig("feature_relative.png")
 plt.show()
