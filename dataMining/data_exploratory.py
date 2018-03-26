@@ -31,6 +31,7 @@ plt.figure(figsize=(8,6))
 plt.scatter(range(train_df.shape[0]), np.sort(train_df.price_doc.values))
 plt.xlabel('index', fontsize=12)
 plt.ylabel('price', fontsize=12)
+plt.savefig("price_dis.png")
 plt.show()
 
 # missing value count
@@ -45,6 +46,7 @@ ax.set_yticks(ind)
 ax.set_yticklabels(missing_df.column_name.values, rotation='horizontal')
 ax.set_xlabel("Count of missing values")
 ax.set_title("Number of missing values in each column")
+plt.savefig("miss_value.png")
 plt.show()
 
 # importance feature calculate
@@ -72,6 +74,7 @@ model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
 # plot the important features #
 fig, ax = plt.subplots(figsize=(12,18))
 xgb.plot_importance(model, max_num_features=50, height=0.8, ax=ax)
+plt.savefig("feature_importance.png")
 plt.show()
 
 # correlation analysis
