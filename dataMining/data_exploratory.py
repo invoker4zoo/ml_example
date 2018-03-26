@@ -25,6 +25,9 @@ read_columns = ['timestamp', 'oil_urals', 'gdp_quart_growth', 'cpi', 'usdrub', \
                 'salary_growth', 'unemployment', 'average_provision_of_build_contract_moscow', 'mortgage_rate', \
                 'deposits_rate', 'deposits_growth', 'rent_price_3room_eco', \
                 'rent_price_3room_bus']
+# 统计信息
+print train_df.describe()
+
 
 # house price distribute
 plt.figure(figsize=(8,6))
@@ -81,28 +84,25 @@ plt.show()
 ###### Service Read routines ###
 def condition_train(value, col):
     vals = (macro_df[macro_df['mo_ye'] == value])
-
     ret = vals[col].asobject
-
     ret = ret[0]
-
     return ret
+
 
 def condition_test(value, col):
     vals = (macro_df[macro_df['mo_ye'] == value])
-
     ret = vals[col].asobject
-
     ret = ret[0]
-
     return ret
+
 
 def condition(value,col):
     vals = (macro_df[macro_df['timestamp'] == value])
-    ret=vals[col].asobject
-    ret=ret[0]
-
+    ret = vals[col].asobject
+    # if ret.shape[0]>0:
+    ret = ret[0]
     return ret
+
 
 def init_anlz_file():
 
@@ -139,4 +139,5 @@ macro_df.drop(['index'],axis=1,inplace=True)
 corr = macro_df[:].corr(method='spearman')
 fig, ax = plt.subplots(figsize=(10,10))
 sns.heatmap(corr, annot=True, linewidths=.5, ax=ax)
+plt.savefig("feature_relative.png")
 plt.show()
