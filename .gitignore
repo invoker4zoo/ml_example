@@ -104,4 +104,4 @@ ENV/
 /data/*
 
 # .idea
-/.idea/*
+.idea/*
